@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tn.esprit.spring.entity.Kindergarten;
 import tn.esprit.spring.entity.Parent;
+import tn.esprit.spring.mail.SendMail;
 import tn.esprit.spring.service.IAdminstratorService;
 
 @RestController
@@ -21,15 +22,18 @@ public class AdminstratorController {
 	
 	@Autowired
 	IAdminstratorService adminstratorService;
-	
+	@Autowired
+	SendMail sendMail
+	;
 	@PutMapping("/adminstrator/Confirmation/{id}")
 	public String Confirmationkindergarten( @PathVariable("id") Long id ){
 		List<Kindergarten> k=adminstratorService.findallkindergartens();
 		for(Kindergarten i:k){
-			if(i.getId()==id)
-		adminstratorService.KindergartenRegistrationConfirmation(id);
+			if(i.getId()==id){
+		    adminstratorService.KindergartenRegistrationConfirmation(id);
+			//sendMail.send(i.getEmail());
 		return "kindergarten from id = "+id+" Confirmation"	;
-		}
+		}}
 		return "not found";
 
 	}

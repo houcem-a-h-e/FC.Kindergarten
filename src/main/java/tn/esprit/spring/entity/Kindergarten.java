@@ -1,9 +1,13 @@
 package tn.esprit.spring.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Set;
-
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,10 +20,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import antlr.collections.List;
 
 @Entity
 public class Kindergarten implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id ;
@@ -37,8 +44,10 @@ public class Kindergarten implements Serializable {
 	@OneToMany(mappedBy="kindergarten")
 	Set<Bus_reservation> bus_reservations;
 	
-	@OneToMany(mappedBy="kindergarten",cascade=CascadeType.ALL)
-	private java.util.List<Parent> parents;
+	@OneToMany(mappedBy="kindergarten",cascade=CascadeType.PERSIST)
+	private  List<Parent> parents ;
+	
+	
 	public long getId() {
 		return id;
 	}

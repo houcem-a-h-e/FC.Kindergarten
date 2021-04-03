@@ -2,6 +2,7 @@ package tn.esprit.spring.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import tn.esprit.spring.entity.Child;
+import tn.esprit.spring.entity.Kindergarten;
 import tn.esprit.spring.entity.Parent;
+import tn.esprit.spring.mail.SendMail;
 import tn.esprit.spring.service.IParentService;
 import tn.esprit.spring.service.ParentService;
 
@@ -27,6 +30,10 @@ public class ParentController {
 
 	@Autowired
 	IParentService iParentService;
+	
+	@Autowired
+	SendMail sendMail;
+	
     //final	IParentService iParentService;
 	Logger logger=LoggerFactory.getLogger(ParentController.class);
 	
@@ -41,9 +48,19 @@ public class ParentController {
 	}
 	
 	@PostMapping("/parent/add")
-	public Parent addParent(@RequestBody Parent parent){
+	public String addParent(@RequestBody Parent parent){
 		logger.info("test"+parent);
-		return iParentService.addParent(parent);
+		List<Parent>parents=iParentService.retrieveAllParent();
+		String email = parent.getEmail();
+		parents.stream().filter(x->x.getEmail().equals(email)).collect(Collectors.toList());
+				if(parents.isEmpty())
+				{
+					iParentService.addParent(parent);
+				//	sendMail.send(email)
+					return "succs";
+				}
+				    return "parent existe";
+	
 	}/*
 	public ParentController(IParentService iParentService) {
 		this.iParentService = iParentService;
@@ -69,5 +86,9 @@ public class ParentController {
 	@PutMapping("/Parent/{idP}/{idK}")
 	public void abonneParent(@PathVariable("idP") Long idP,@PathVariable("idK") Long idK) {
 		iParentService.abonneKindergarten(idP, idK);
+	}
+	@GetMapping("/parent/findkinder")
+	public List<Kindergarten> afficherkinder (){
+		return  iParentService.findkinder();
 	}
 }

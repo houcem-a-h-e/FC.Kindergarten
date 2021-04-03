@@ -53,8 +53,15 @@ public class ParentService implements IParentService {
 	public void abonneKindergarten(Long idP,Long idK) {
    		Kindergarten k = kindergartenRepository.findById(idK).get();     
 		Parent p= parentRepository.findById(idP).get();
-		k.getParents().add(p);
-		kindergartenRepository.save(k);
+		p.setKindergarten(k);
+		parentRepository.save(p);
+	//	k.getParents().add(p);
+	//kindergartenRepository.save(k);
+	}
+
+	@Override
+	public List<Kindergarten> findkinder() {
+		return (List<Kindergarten>) kindergartenRepository.findAll();
 	}
 
 
