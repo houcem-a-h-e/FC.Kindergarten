@@ -2,8 +2,10 @@ package tn.esprit.spring.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tn.esprit.spring.entity.Child;
 import tn.esprit.spring.entity.Kindergarten;
+import tn.esprit.spring.entity.Parent;
+import tn.esprit.spring.entity.Users;
+import tn.esprit.spring.repository.UserRepository;
 import tn.esprit.spring.service.KindergartenService;
 
 @RestController
@@ -26,8 +31,12 @@ public class KindergartenController {
 	@Autowired
 	KindergartenService kindergartenService;
 	
+
+	
+
+	
 	@GetMapping("/kindergarten/{id}")
-	public Optional<Kindergarten> afficher (@PathVariable("id") String id){
+	public Kindergarten afficher (@PathVariable("id") Long id){
 		return  kindergartenService.retrieveKindergarten(id);
 	}
 	
@@ -35,10 +44,21 @@ public class KindergartenController {
 	public List<Kindergarten> afficherAllChild (){
 		return  kindergartenService.retrieveAllKindergarten();
 	}
+	
+	
 	@PostMapping("/kindergarten/add")
-	public Kindergarten add(@RequestBody Kindergarten k){
-		return kindergartenService.addKindergarten(k);
+	public String add(@RequestBody Kindergarten k){
+		List<Kindergarten> kinder=kindergartenService.retrieveAllKindergarten();
+		//String email = k.getEmail();
+
+		List<Kindergarten> l= kinder.stream().filter(x->x.getEmail().equals( k.getEmail())).collect(Collectors.toList());
+		if(l.isEmpty()){
+		 kindergartenService.addKindergarten(k);
+		 return "succs";
+		}
+		return "kindergarten is existe";
 	}
+	
 	@DeleteMapping("/remove-kindergarten/{id}")
 	@ResponseBody
 	public void removeKindergarten(@PathVariable("id") String id) {

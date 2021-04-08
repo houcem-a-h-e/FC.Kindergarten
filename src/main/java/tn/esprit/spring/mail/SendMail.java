@@ -17,6 +17,7 @@ public class SendMail {
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
+	
 	public void send(String to){
 		MimeMessage message = javaMailSender.createMimeMessage();
 		

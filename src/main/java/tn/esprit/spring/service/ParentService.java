@@ -8,10 +8,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import tn.esprit.spring.entity.Kindergarten;
 import tn.esprit.spring.entity.Parent;
+import tn.esprit.spring.entity.Users;
 import tn.esprit.spring.repository.KindergartenRepository;
 import tn.esprit.spring.repository.ParentRepository;
+import tn.esprit.spring.repository.UserRepository;
 @Service
 public class ParentService implements IParentService {
 
@@ -19,6 +22,7 @@ public class ParentService implements IParentService {
 	ParentRepository parentRepository;
 	@Autowired
 	KindergartenRepository kindergartenRepository;
+
 	
 	public List<Parent> retrieveAllParent() {
 		List<Parent> parents=(List<Parent>) parentRepository.findAll();
@@ -26,7 +30,9 @@ public class ParentService implements IParentService {
 	}
 
 	public Parent addParent(Parent p) {
+		
 		return parentRepository.save(p);
+		
 	}
 
 	public void deleteParent(String id) {
@@ -59,10 +65,10 @@ public class ParentService implements IParentService {
 	//kindergartenRepository.save(k);
 	}
 
-	@Override
-	public List<Kindergarten> findkinder() {
-		return (List<Kindergarten>) kindergartenRepository.findAll();
-	}
+
+
+
+	
 
 
 }

@@ -7,19 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tn.esprit.spring.entity.Kindergarten;
-import tn.esprit.spring.entity.Parent;
+import tn.esprit.spring.entity.Users;
 import tn.esprit.spring.repository.KindergartenRepository;
+import tn.esprit.spring.repository.UserRepository;
 @Service
 public class KindergartenService implements IKindergartenService {
 
 	@Autowired
 	KindergartenRepository kindergartenRepository;
+	@Autowired
+	UserRepository userRepository;
 	public List<Kindergarten> retrieveAllKindergarten() {
 		List<Kindergarten> k=(List<Kindergarten>) kindergartenRepository.findAll();
 		return k ;
 	}
 
 	public Kindergarten addKindergarten(Kindergarten k) {
+		
 		return kindergartenRepository.save(k);
 	}
 
@@ -31,13 +35,13 @@ public class KindergartenService implements IKindergartenService {
 		return kindergartenRepository.save(k);
 	}
 
-	public Optional<Kindergarten> retrieveKindergarten(String id) {
-		
-		 Optional<Kindergarten> k =kindergartenRepository.findById(Long.parseLong(id));
-		if(k.isPresent())
-			return k;
-		else 
-			return null;
+	public Kindergarten retrieveKindergarten(Long id)
+	{
+	return	kindergartenRepository.findById(id).orElse(null);
+	
+	}
+	public List<Kindergarten> findallkindergartens() {
+		return (List<Kindergarten>) kindergartenRepository.findAll();
 	}
 
 }

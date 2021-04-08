@@ -14,6 +14,5 @@ public interface IParentService {
 	void abonneKindergarten(Long idP,Long idK);
 	Parent updateParent(Parent p);
 	Optional<Parent> retrieveParent(String id);
-	List<Kindergarten> findkinder();
 
 }

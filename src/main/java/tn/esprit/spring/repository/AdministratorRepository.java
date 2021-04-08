@@ -14,7 +14,7 @@ import tn.esprit.spring.entity.Parent;
 
 @Repository
 public interface AdministratorRepository extends CrudRepository<Administrator, Long> {
-	@Query(value= "select * from Parent where kindergarten_id=?1",nativeQuery = true)
-	List<Parent> findParentfromKindergarten(Long id);
+	//@Query(value= "select p from Parent where p kindergarten_id=?1",nativeQuery = true)
+	//List<Parent> findParentfromKindergarten(Long id);
 
 }

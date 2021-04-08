@@ -15,6 +15,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -31,13 +34,16 @@ public class Kindergarten implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id ;
 	private String  Name;
-	private String phonenumber ;
-	private String email ;
-	private String password ;
+	private String phonenumber;
+	private String email;
+	private String password;
     private boolean Confirmation=false;
 	@Temporal(TemporalType.DATE)
-	private Date datenaiss ;
-
+	private Date datenaiss;
+	
+	private   final String role="Kindergarten";
+	
+	
 	@ManyToOne
 	private Administrator administrator;
 	
@@ -48,6 +54,13 @@ public class Kindergarten implements Serializable {
 	private  List<Parent> parents ;
 	
 	
+	
+
+
+	public String getRole() {
+		return role;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -149,7 +162,6 @@ public class Kindergarten implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 
 	
 	

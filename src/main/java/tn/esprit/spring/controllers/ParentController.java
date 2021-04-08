@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,14 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import tn.esprit.spring.entity.Child;
+import tn.esprit.spring.entity.JwtRequest;
 import tn.esprit.spring.entity.Kindergarten;
 import tn.esprit.spring.entity.Parent;
+import tn.esprit.spring.entity.UserDto;
 import tn.esprit.spring.mail.SendMail;
 import tn.esprit.spring.service.IParentService;
-import tn.esprit.spring.service.ParentService;
-
+import tn.esprit.spring.service.JwtUserDetailsService;
+import tn.esprit.spring.service.KindergartenService;
 @RestController
+
 @RequestMapping("/api")
 public class ParentController {
 
@@ -33,6 +36,15 @@ public class ParentController {
 	
 	@Autowired
 	SendMail sendMail;
+	@Autowired
+	JwtAuthenticationController jwt;
+	@Autowired
+	KindergartenService kindergartenService;
+	
+	@Autowired
+	private JwtUserDetailsService userDetailsService;
+	@Autowired
+	private PasswordEncoder bcryptEncoder;
 	
     //final	IParentService iParentService;
 	Logger logger=LoggerFactory.getLogger(ParentController.class);
@@ -41,22 +53,25 @@ public class ParentController {
 	public Optional<Parent> afficher (@PathVariable("id") String id){
 		return  iParentService.retrieveParent(id);
 	}
-	
+	//@Secured(value="ROLE_Parent")
 	@GetMapping("/parent/all")
 	public List<Parent> afficherAllParent (){
 		return  iParentService.retrieveAllParent();
 	}
 	
 	@PostMapping("/parent/add")
-	public String addParent(@RequestBody Parent parent){
+	public String addParent(@RequestBody Parent parent) throws Exception{
 		logger.info("test"+parent);
 		List<Parent>parents=iParentService.retrieveAllParent();
 		String email = parent.getEmail();
-		parents.stream().filter(x->x.getEmail().equals(email)).collect(Collectors.toList());
-				if(parents.isEmpty())
+		List<Parent> l= parents.stream().filter(x->x.getEmail().equals(email)).collect(Collectors.toList());
+				if(l.isEmpty())
 				{
+					UserDto user=new UserDto(parent.getEmail(),parent.getPassword(),parent.getRole());
+					userDetailsService.save(user);
+
 					iParentService.addParent(parent);
-				//	sendMail.send(email)
+					sendMail.send(email);
 					return "succs";
 				}
 				    return "parent existe";
@@ -87,8 +102,12 @@ public class ParentController {
 	public void abonneParent(@PathVariable("idP") Long idP,@PathVariable("idK") Long idK) {
 		iParentService.abonneKindergarten(idP, idK);
 	}
-	@GetMapping("/parent/findkinder")
-	public List<Kindergarten> afficherkinder (){
-		return  iParentService.findkinder();
+	
+	@GetMapping("/parent/test/{email}/{password}")
+	public String testaut(@PathVariable("email")String email,@PathVariable("password") String password) throws Exception {
+		JwtRequest request=new JwtRequest(email,password);
+		String j=jwt.createAuthenticationToken(request);
+	
+	return j;
 	}
 }
