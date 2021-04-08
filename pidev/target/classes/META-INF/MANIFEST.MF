@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: pidev
+Implementation-Version: 1.0
+Built-By: DELL
+Implementation-Vendor-Id: com.esprit.tn
+Build-Jdk: 1.8.0_60
+Implementation-URL: https://spring.io/projects/spring-boot/pidev
+Created-By: Maven Integration for Eclipse
+
