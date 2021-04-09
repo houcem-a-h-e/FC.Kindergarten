@@ -7,13 +7,20 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.rest.api.v2010.account.MessageCreator;
+import com.twilio.type.PhoneNumber;
+
 import tn.esprit.spring.entity.Offer;
 import tn.esprit.spring.repository.OfferRepository;
+import tn.esprit.spring.sms.TwilioConfiguration;
 @Service
 public class OfferServiceImpl implements IofferService {
 	@Autowired
 	private OfferRepository offerrepository;
 	private static final Logger l = LogManager.getLogger(OfferServiceImpl.class);
+	@Autowired
+	TwilioConfiguration twilioconfig;
 
 	@Override
 	public List<Offer> retrieveAllOffers() {
@@ -45,4 +52,13 @@ public class OfferServiceImpl implements IofferService {
 		Offer o = offerrepository.findById(Long.parseLong(id)).orElse(null);
 		return o;
 	}
+	@Override
+	public void sendingSms(Offer offerrequest) {
+		// TODO Auto-generated method stub
+		MessageCreator creator = Message.creator(new PhoneNumber(offerrequest.getPhoneNumber()) ,
+												  new PhoneNumber(twilioconfig.getTrialNumber()), 
+												  offerrequest.getMessage());
+		creator.create();
+	}
+	
 }

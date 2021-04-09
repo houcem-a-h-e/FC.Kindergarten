@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+
 
 @Entity
 public class Offer implements Serializable {
@@ -24,6 +27,11 @@ public class Offer implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 	private String availability;
+	
+	@Transient
+	private String phoneNumber;
+	@Transient
+	private String message;
 	
 	@ManyToOne
 	private Kindergarten kindergarten;
@@ -58,10 +66,7 @@ public class Offer implements Serializable {
 	public void setAvailability(String availability) {
 		this.availability = availability;
 	}
-	public Offer() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
 	public Offer(long id, String subject, Date date, String availability) {
 		super();
 		this.id = id;
@@ -69,11 +74,40 @@ public class Offer implements Serializable {
 		this.date = date;
 		this.availability = availability;
 	}
+	
+	public Offer(long id, String subject, Date date, String availability, String phoneNumber,
+			 String message, Kindergarten kindergarten) {
+		super();
+		
+		this.id = id;
+		this.subject = subject;
+		this.date = date;
+		this.availability = availability;
+		this.phoneNumber =phoneNumber;
+		this.message = message;
+		this.kindergarten = kindergarten;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	@Override
 	public String toString() {
-		return "Offer [id=" + id + ", subject=" + subject + ", date=" + date + ", availability=" + availability + "]";
+		return "Offer [id=" + id + ", subject=" + subject + ", date=" + date + ", availability=" + availability
+				+ ", phoneNumber=" + phoneNumber + ", message=" + message + ", kindergarten=" + kindergarten + "]";
 	}
-	
+	public Offer() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	

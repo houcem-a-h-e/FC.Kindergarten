@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import tn.esprit.spring.entity.Kindergarten;
 import tn.esprit.spring.entity.Offer;
 import tn.esprit.spring.mail.SendMail;
 import tn.esprit.spring.service.IKindergartenService;
 import tn.esprit.spring.service.IofferService;
+import tn.esprit.spring.service.SmsSenderImpl;
 
 @RestController
 public class OfferRestController {
@@ -26,6 +26,9 @@ public class OfferRestController {
 	SendMail sendmail;
 	@Autowired
 	IKindergartenService ks;
+	
+	@Autowired
+	SmsSenderImpl ss;
 	
 	@GetMapping("/retrieve")
 	public List<Offer> getOffer(){
@@ -38,14 +41,15 @@ public class OfferRestController {
 		return "hello";
 	}
 	@PostMapping("/addoffer")
-	@ResponseBody
-	public Offer addOffer(@RequestBody Offer o ){
+	public Offer addOffer(@RequestBody Offer o  ){
 		Offer offer= os.addOffer(o);
 		/*int kindergartenId =(int) offer.getKindergarten().getId();
 		List<String> mail = ks.getAllemailsParentByKindergarten( kindergartenId);
 		for(String to : mail)
 			sendmail.send(to);*/
-		sendmail.send("hassen.aloui@esprit.tn");
+		//sendmail.send("hassen.aloui@esprit.tn");
+		os.sendingSms(o);
+		
 		return offer;
 	}
 	@GetMapping("/retrieve-offer/{offerId}")

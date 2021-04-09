@@ -10,4 +10,5 @@ public interface IofferService  {
 	void deleteOffer(String id);
 	Offer updateOffer(Offer o);
 	Offer retrieveOffer(String id);
+	 void sendingSms(Offer offerrequest);
 }
