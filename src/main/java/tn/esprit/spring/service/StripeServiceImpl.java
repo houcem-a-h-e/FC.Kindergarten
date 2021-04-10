@@ -122,7 +122,7 @@ public class StripeServiceImpl {
 			param.put("description", "test of payment ");
 			param.put("currency", "usd");
 			param.put("payment_method_types", paymentMethodTypes);
-			
+			param.put("customer", customer.getId());
 			
 			PaymentIntent paymentintent = PaymentIntent.create(param);
 			
