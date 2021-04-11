@@ -1,27 +1,23 @@
 package tn.esprit.spring.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.ListIterator;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity
@@ -36,26 +32,46 @@ public class Kindergarten implements Serializable {
 	private String  Name;
 	private String phonenumber;
 	private String email;
+	@JsonIgnore
 	private String password;
     private boolean Confirmation=false;
 	@Temporal(TemporalType.DATE)
 	private Date datenaiss;
 	
+	private HashMap<String, Integer> forvote;
+	private String delegate=null;
+	
 	private   final String role="Kindergarten";
 	
-	
+	@OneToMany(mappedBy="kindergarten")
+	@JsonIgnore
+	List<TimesheetDelegate> delegates;
 	@ManyToOne
 	private Administrator administrator;
-	
 	@OneToMany(mappedBy="kindergarten")
+	@JsonIgnore
 	Set<Bus_reservation> bus_reservations;
-	
-	@OneToMany(mappedBy="kindergarten",cascade=CascadeType.PERSIST)
+	@ManyToMany(mappedBy="kindergarten",cascade = CascadeType.ALL)
+	@JsonIgnore
 	private  List<Parent> parents ;
 	
-	
-	
 
+
+	public HashMap<String, Integer> getVote() {
+		return forvote;
+	}
+
+	public void setVote(HashMap<String, Integer> vote) {
+		this.forvote = vote;
+	}
+
+	public List<TimesheetDelegate> getDelegates() {
+		return delegates;
+	}
+
+	public void setDelegates(List<TimesheetDelegate> delegates) {
+		this.delegates = delegates;
+	}
 
 	public String getRole() {
 		return role;
@@ -133,17 +149,31 @@ public class Kindergarten implements Serializable {
 		this.datenaiss = datenaiss;
 	}
 
-	public java.util.List<Parent> getParents() {
+	public List<Parent> getParents() {
 		return parents;
 	}
 
-	public void setParents(java.util.List<Parent> parents) {
+	public void setParents(List<Parent> parents) {
 		this.parents = parents;
 	}
 
+	public String getDelegate() {
+		return delegate;
+	}
+
+	public void setDelegate(String delegate) {
+		this.delegate = delegate;
+	}
+
+
+
+	
+
+
+
 	public Kindergarten(long id, String name, String phonenumber, String email, String password, boolean confirmation,
-			Date datenaiss, Administrator administrator, Set<Bus_reservation> bus_reservations,
-			java.util.List<Parent> parents) {
+			Date datenaiss, HashMap<String, Integer> vote, String delegate, List<TimesheetDelegate> delegates,
+			Administrator administrator, Set<Bus_reservation> bus_reservations, List<Parent> parents) {
 		super();
 		this.id = id;
 		Name = name;
@@ -152,6 +182,9 @@ public class Kindergarten implements Serializable {
 		this.password = password;
 		Confirmation = confirmation;
 		this.datenaiss = datenaiss;
+		this.forvote = vote;
+		this.delegate = delegate;
+		this.delegates = delegates;
 		this.administrator = administrator;
 		this.bus_reservations = bus_reservations;
 		this.parents = parents;
@@ -161,6 +194,10 @@ public class Kindergarten implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+
+
+
 
 
 	

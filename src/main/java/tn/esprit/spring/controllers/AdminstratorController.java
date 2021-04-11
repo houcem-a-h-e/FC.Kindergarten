@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,12 +62,11 @@ public class AdminstratorController {
 		return  kindergartenService.findallkindergartens();
 	}
 	@GetMapping("/adminstrator/kinderparent/{id}")
-	public List<Parent> findParentfromKindergarten(@PathVariable("id")Long id) {
+	public HashMap<Long, String> findParentfromKindergarten(@PathVariable("id")Long id) {
 
-	Kindergarten k= kindergartenService.retrieveKindergarten(id);
-	
-	 return k.getParents();
+	 return kindergartenService.findParentfromKindergarten(id);
 	}
+	
 	
 	
 	

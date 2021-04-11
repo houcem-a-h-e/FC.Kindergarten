@@ -3,15 +3,25 @@ package tn.esprit.spring.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 
@@ -28,15 +38,25 @@ public class Parent implements Serializable {
 	private  String lastName ;
 	private String phonenumber ;
 	private String email ;
+	@JsonIgnore
 	private String password ;
+	@Enumerated(EnumType.STRING)
 	private parentType patype;
 	@Temporal(TemporalType.DATE)
 	private Date datenais ;
 	private final String role="Parent";
-	@ManyToOne
-	private Kindergarten kindergarten;
+	@ManyToMany
+	@JsonIgnore
+	private List<Kindergarten> kindergarten;
+	@ManyToMany(mappedBy="parent",cascade=CascadeType.PERSIST)
+	@JsonIgnore
+	Set<Child> child;
+	
 	@OneToMany(mappedBy="parent")
-	List<Child> child;	
+	@JsonIgnore
+	List<TimesheetDelegate> delegates;
+	
+	
 	public String getRole() {
 		return role;
 	}
@@ -105,16 +125,21 @@ public class Parent implements Serializable {
 		this.datenais = datenais;
 	}
 
-	public Kindergarten getKindergarten() {
+	public List<Kindergarten> getKindergarten() {
 		return kindergarten;
 	}
 
-	public void setKindergarten(Kindergarten kindergarten) {
+	public void setKindergarten(List<Kindergarten> kindergarten) {
 		this.kindergarten = kindergarten;
 	}
+	
+
+
+
+
 
 	public Parent(long id, String firstName, String lastName, String phonenumber, String email, String password,
-			parentType patype, Date datenais, Kindergarten kindergarten, List<Child> child) {
+			parentType patype, Date datenais, List<Kindergarten> kindergarten, Set<Child> child) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -131,6 +156,14 @@ public class Parent implements Serializable {
 	public Parent() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Set<Child> getChild() {
+		return child;
+	}
+
+	public void setChild(Set<Child> child) {
+		this.child = child;
 	}
 
 	

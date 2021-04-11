@@ -25,9 +25,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 	protected void configure(AuthenticationManagerBuilder auth,DataSource dataSource) throws Exception{
 	auth.jdbcAuthentication()
 		.dataSource(dataSource)
-		.usersByUsernameQuery("select email as principal , password as credentials,true from users where email= ?")
-		.authoritiesByUsernameQuery("select email as principal,role from users where email =? ")
-		.rolePrefix("ROle");
+		.usersByUsernameQuery("select email as principal , password as credentials,true from users where email= ?");
+		
 	}
 	public void configure(HttpSecurity http) throws Exception{
 		http
@@ -75,7 +74,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth,DataSource dataSource) throws Exception{
 		auth.jdbcAuthentication()
 			.dataSource(dataSource)
-			.usersByUsernameQuery("select email as principal , password as credentials ,true from users where email= ?");
+			.usersByUsernameQuery("select email as principal , password as credentials ,true from users where email= ?")
+			.authoritiesByUsernameQuery("select email as principal,role as role from users u where email =?")
+			.rolePrefix("ROLE_");
 		}
 
 	@Bean
@@ -94,19 +95,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
-				.authorizeRequests().antMatchers("/api/kindergarten/add","/authenticate", "/api/parent/add","/css/**").permitAll()
+				.authorizeRequests().antMatchers("/api/parent/auth/{email}/{password}","/api/kindergarten/add","/authenticate", "/api/parent/add","/css/**","/js/**","/images/**").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest()
 				.authenticated()  
-	
+		/*		.and()
+			    .formLogin()
+			       .loginPage("/login")
+			          .permitAll()
+			          .defaultSuccessUrl("/home.html")
+		*/
 						.and()
-				
+				// make sure we use stateless session; session won't be used to
+				// store user's state.
 							.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
 					
 						.and()
 							.sessionManagement()
 							.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+		// Add a filter to validate the tokens with every request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 }

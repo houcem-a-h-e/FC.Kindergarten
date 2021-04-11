@@ -19,7 +19,8 @@ public class Bus_reservation implements Serializable {
 	private boolean disponibilite;
 	@Temporal(TemporalType.DATE)
 	private Date date_res;
-	
+	@ManyToOne
+	Kindergarten kindergarten;
 	public long getId_res() {
 		return id_res;
 	}
@@ -60,7 +61,6 @@ public class Bus_reservation implements Serializable {
 		this.kindergarten = kindergarten;
 	}
 
-	@ManyToOne
-	Kindergarten kindergarten;
+
 	
 }

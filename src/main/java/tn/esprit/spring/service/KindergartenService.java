@@ -1,5 +1,6 @@
 package tn.esprit.spring.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tn.esprit.spring.entity.Kindergarten;
+import tn.esprit.spring.entity.Parent;
 import tn.esprit.spring.entity.Users;
 import tn.esprit.spring.repository.KindergartenRepository;
 import tn.esprit.spring.repository.UserRepository;
@@ -42,6 +44,18 @@ public class KindergartenService implements IKindergartenService {
 	}
 	public List<Kindergarten> findallkindergartens() {
 		return (List<Kindergarten>) kindergartenRepository.findAll();
+	}
+
+	@Override
+	public HashMap<Long, String> findParentfromKindergarten(Long id) {
+		Kindergarten k=retrieveKindergarten(id);
+		HashMap<Long, String> parents=new HashMap<Long,String>();
+		Long i=(long) 0;
+		for(Parent p:k.getParents()){
+			i++;
+			parents.put(i, p.getEmail());}
+		 return parents;
+		
 	}
 
 }

@@ -32,10 +32,12 @@ public class AdminstratorService implements IAdminstratorService {
 	public void KindergartenRegistrationConfirmation(Long id) {	
 		List<Kindergarten> kindergartens =(List<Kindergarten>) kindergartenRepository.findAll();
 	
+		
 
 		for(Kindergarten i:kindergartens)
 			if(i.getId()==id)
 			{i.setConfirmation(true);
+		
 		    i.setPassword(bcryptEncoder.encode(i.getPassword()));
 			Users u=new Users(i.getEmail(),i.getPassword(),i.getRole());
 		    userRepository.save(u);

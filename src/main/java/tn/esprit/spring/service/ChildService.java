@@ -15,12 +15,10 @@ public class ChildService implements IChildService{
 	ChildRepository childRepository;
 
 	public List<Child> retrieveAllChild() {
-		// TODO Auto-generated method stub
 		return (List<Child>) childRepository.findAll();
 	}
 
 	public Child addChild(Child c) {
-		// TODO Auto-generated method stub
 		return childRepository.save(c);
 	}
 
@@ -30,12 +28,10 @@ public class ChildService implements IChildService{
 	}
 
 	public Child updateChild(Child c) {
-		// TODO Auto-generated method stub
 		return childRepository.save(c);
 	}
 
 	public Optional<Child> retrieveChild(String id) {
-		// TODO Auto-generated method stub
 		return childRepository.findById(Long.parseLong(id));
 	}
 

@@ -1,17 +1,24 @@
 package tn.esprit.spring.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.tool.schema.spi.DelayedDropRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import tn.esprit.spring.entity.Child;
 import tn.esprit.spring.entity.Kindergarten;
 import tn.esprit.spring.entity.Parent;
+import tn.esprit.spring.entity.TimeSheetPk;
+import tn.esprit.spring.entity.TimesheetDelegate;
 import tn.esprit.spring.entity.Users;
+import tn.esprit.spring.repository.ChildRepository;
+import tn.esprit.spring.repository.DelegateRepository;
 import tn.esprit.spring.repository.KindergartenRepository;
 import tn.esprit.spring.repository.ParentRepository;
 import tn.esprit.spring.repository.UserRepository;
@@ -22,7 +29,7 @@ public class ParentService implements IParentService {
 	ParentRepository parentRepository;
 	@Autowired
 	KindergartenRepository kindergartenRepository;
-
+	
 	
 	public List<Parent> retrieveAllParent() {
 		List<Parent> parents=(List<Parent>) parentRepository.findAll();
@@ -43,15 +50,11 @@ public class ParentService implements IParentService {
 		return parentRepository.save(p);
 	}
 
-	public Optional<Parent> retrieveParent(String id) {
+	public Parent retrieveParent(String id) {
 
-		//Parent p = parentRepository.findone(Long.parseLong(id));
-		//return parentRepository.findById(Long.parseLong(id));
-		Optional<Parent> p =parentRepository.findById(Long.parseLong(id));
-		if(p.isPresent())
-			return p;
-		else 
-			return null;
+		
+			return parentRepository.findById(Long.parseLong(id)).orElse(null);
+		
 
 	}
 
@@ -59,10 +62,34 @@ public class ParentService implements IParentService {
 	public void abonneKindergarten(Long idP,Long idK) {
    		Kindergarten k = kindergartenRepository.findById(idK).get();     
 		Parent p= parentRepository.findById(idP).get();
-		p.setKindergarten(k);
+		List<Kindergarten>kinder=p.getKindergarten();
+		kinder.add(k);
+		p.setKindergarten(kinder);
 		parentRepository.save(p);
 	//	k.getParents().add(p);
-	//kindergartenRepository.save(k);
+	 //   kindergartenRepository.save(k);
+	}
+	@Transactional
+	@Override
+	public Parent addChild(Child c,Long idP) {
+		Parent p= parentRepository.findById(idP).get();
+		Set<Child> childs=p.getChild();
+		
+		childs.add(c);
+		p.setChild(childs);
+		c.setParent(p);
+		parentRepository.save(p);
+
+		return p;
+	}
+
+	@Override
+	public TimesheetDelegate demandedelegate(Long idk,Long idp) {
+		
+		
+		return null;
+		
+		
 	}
 
 

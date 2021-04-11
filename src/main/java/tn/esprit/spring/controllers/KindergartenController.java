@@ -1,5 +1,6 @@
 package tn.esprit.spring.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.spring.entity.Child;
 import tn.esprit.spring.entity.Kindergarten;
 import tn.esprit.spring.entity.Parent;
+import tn.esprit.spring.entity.TimesheetDelegate;
 import tn.esprit.spring.entity.Users;
 import tn.esprit.spring.repository.UserRepository;
+import tn.esprit.spring.service.IDelegateService;
 import tn.esprit.spring.service.KindergartenService;
 
 @RestController
@@ -30,11 +33,8 @@ public class KindergartenController {
 	
 	@Autowired
 	KindergartenService kindergartenService;
-	
-
-	
-
-	
+	@Autowired
+	IDelegateService iDelegateService;
 	@GetMapping("/kindergarten/{id}")
 	public Kindergarten afficher (@PathVariable("id") Long id){
 		return  kindergartenService.retrieveKindergarten(id);
@@ -72,9 +72,31 @@ public class KindergartenController {
 			if(i.getId()==k.getId()){
 			kindergartenService.updateKindergarten(k);
 	   return "modify successfully from id ="+k.getId(); 
-	   
 	         }
 		return " kindergarten not found " ;
 		}
+	@GetMapping("/KindergartenMyParent/{id}")
+	public HashMap<Long, String> findParentfromKindergarten(@PathVariable("id")Long id) {
+
+	 return kindergartenService.findParentfromKindergarten(id);
+	}
+	@PutMapping("/kindergarten/affectationdemandeParentforDelegate/{idk}/{idp}")
+	public List<TimesheetDelegate> affactation (@PathVariable("idk") Long idk,@PathVariable("idp") Long idp){
+		
+		List<TimesheetDelegate> delegates=iDelegateService.retrieveAll();
+		for(TimesheetDelegate d:delegates){
+			if(d.getPk().getParentID()==idp&&d.getPk().getKinderID()==idk){
+				d.setValide(true);
+				iDelegateService.updateDelegate(d);
+				Kindergarten k=	kindergartenService.retrieveKindergarten(idk);
+				HashMap<String, Integer> v=new HashMap<>();
+				v.put(k.getEmail(),0);
+				k.setVote(v);
+				kindergartenService.updateKindergarten(k);
+		}
+		}
+		return  delegates;
+	}
+
 
 }
