@@ -4,12 +4,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import tn.esprit.spring.entity.Parent;
-
+import tn.esprit.spring.entity.Kindergarten;
 
 @Repository
-public interface ParentRepository extends CrudRepository<Parent, Long> {
-	//@Query("select p from Parent p where p.id= ?1")
-   // Parent	findone(Long id);
-
+public interface KindergartenRepository extends  CrudRepository<Kindergarten, Long> {
 }

@@ -2,11 +2,9 @@ package tn.esprit.spring.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,8 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import tn.esprit.spring.entity.ParentType;
-
 @Entity
 public class Parent implements Serializable {
 	@Id
@@ -31,57 +27,13 @@ public class Parent implements Serializable {
 	private String phonenumber ;
 	private String email ;
 	private String password ;
-	@Enumerated(EnumType.STRING)
-	ParentType pType;
+	private parentType patype;
 	@Temporal(TemporalType.DATE)
 	private Date datenais ;
-	/*@ManyToOne
-	private Kindergarten kindergarten;*/
-	//@OneToMany(mappedBy="parent")
-	/*List<Child> child;*/
-	//@JsonIgnore
-		@ManyToMany(mappedBy="like", cascade = CascadeType.ALL)
-		private List<Post> parentLikePost;	
-		//@JsonIgnore
-			@ManyToMany(mappedBy="like", cascade = CascadeType.ALL)
-			private List<Comment> parentLikeComment;	
-		 @OneToMany(cascade = CascadeType.ALL,mappedBy = "parent", orphanRemoval=true)
-		 private Set<Post> post= new HashSet<>();
-		 @OneToMany(cascade = CascadeType.ALL,mappedBy = "post", orphanRemoval=true)
-		 private Set<Comment> comment= new HashSet<>();
-		 
-	public List<Post> getParentlikePost() {
-			return parentLikePost;
-		}
-
-		public void setParentlikePost(List<Post> parentLikePost) {
-			this.parentLikePost = parentLikePost;
-		}
-
-	public List<Comment> getParentlikecomment() {
-			return parentLikeComment;
-		}
-
-		public void setParentLikeComment(List<Comment> parentLikeComment) {
-			this.parentLikeComment = parentLikeComment;
-		}
-
-		public Set<Post> getPost() {
-			return post;
-		}
-
-		public void setPost(Set<Post> post) {
-			this.post = post;
-		}
-
-		public Set<Comment> getComment() {
-			return comment;
-		}
-
-		public void setComment(Set<Comment> comment) {
-			this.comment = comment;
-		}
-
+	@ManyToOne
+	private Kindergarten kindergarten;
+	@OneToMany(mappedBy="parent")
+	List<Child> child;
 	public long getId() {
 		return id;
 	}
@@ -130,12 +82,12 @@ public class Parent implements Serializable {
 		this.password = password;
 	}
 
-	public ParentType getPatype() {
-		return pType;
+	public parentType getPatype() {
+		return patype;
 	}
 
-	public void setPatype(ParentType patype) {
-		this.pType = patype;
+	public void setPatype(parentType patype) {
+		this.patype = patype;
 	}
 
 	public Date getDatenais() {
@@ -146,16 +98,16 @@ public class Parent implements Serializable {
 		this.datenais = datenais;
 	}
 
-	/*public Kindergarten getKindergarten() {
+	public Kindergarten getKindergarten() {
 		return kindergarten;
 	}
 
 	public void setKindergarten(Kindergarten kindergarten) {
 		this.kindergarten = kindergarten;
-	}*/
+	}
 
 	public Parent(long id, String firstName, String lastName, String phonenumber, String email, String password,
-			ParentType patype, Date datenais) {
+			parentType patype, Date datenais, Kindergarten kindergarten, List<Child> child) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -163,10 +115,10 @@ public class Parent implements Serializable {
 		this.phonenumber = phonenumber;
 		this.email = email;
 		this.password = password;
-		this.pType = patype;
+		this.patype = patype;
 		this.datenais = datenais;
-		/*this.kindergarten = kindergarten;
-		this.child = child;*/
+		this.kindergarten = kindergarten;
+		this.child = child;
 	}
 
 	public Parent() {
