@@ -6,4 +6,5 @@ import tn.esprit.spring.sms.RequestSmsOffer;
 public interface SmsSender {
 	void sendSms(RequestSmsOffer smsRequest);
 	void sendingSms(Offer offerrequest);
+	void send(String phoneNmber, String mssage);
 }

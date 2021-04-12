@@ -52,13 +52,32 @@ public class OfferServiceImpl implements IofferService {
 		Offer o = offerrepository.findById(Long.parseLong(id)).orElse(null);
 		return o;
 	}
-	@Override
+	/*@Override
 	public void sendingSms(Offer offerrequest) {
 		// TODO Auto-generated method stub
 		MessageCreator creator = Message.creator(new PhoneNumber(offerrequest.getPhoneNumber()) ,
 												  new PhoneNumber(twilioconfig.getTrialNumber()), 
 												  offerrequest.getMessage());
 		creator.create();
+	}*/
+
+	@Override
+	public void sendingSms(Offer offerrequest) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	@Override
+	public List<Integer> getNumberOfferByKinder(long kinderid) {
+		// TODO Auto-generated method stub
+		return offerrepository.getNumberOfferByKinder(kinderid);
+	}
+
+	@Override
+	public List<String> getMostKinderOffer() {
+		// TODO Auto-generated method stub
+		return offerrepository.getMostKinderOffer();
+	}
+
 	
 }

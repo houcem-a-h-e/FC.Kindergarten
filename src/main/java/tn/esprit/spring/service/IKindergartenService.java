@@ -13,5 +13,7 @@ public interface IKindergartenService {
 	void deleteKindergarten(String id);
 	Kindergarten updateKindergarten(Kindergarten k);
 	Optional<Kindergarten> retrieveKindergarten(String id);
+	//mes methodes
 	List<String> getAllemailsParentByKindergarten(@Param("kidergartenId") Integer kindergartenId );
+	void  affecterOfferAkindergarten(String offerId, String kinderId);
 }

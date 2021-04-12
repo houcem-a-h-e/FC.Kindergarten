@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties("twilio")
 public class TwilioConfiguration {
 	private String accountSid = "ACde359ec5865ae17b01424413a9584e08";
-	private String authToken = "c4ada5b6d07b6e8a4441c39f9b270734";
+	private String authToken = "2a45ba536596e21fac48815d2910749f";
 	private String trialNumber =" +17632519466";
 	public String getAccountSid() {
 		return accountSid;

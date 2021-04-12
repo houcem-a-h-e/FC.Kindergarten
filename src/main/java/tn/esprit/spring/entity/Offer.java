@@ -29,10 +29,10 @@ public class Offer implements Serializable {
 	private Date date;
 	private String availability;
 	
-	@Transient
+	/*@Transient
 	private String phoneNumber;
 	@Transient
-	private String message;
+	private String message;*/
 	
 	@ManyToOne
 	private Kindergarten kindergarten;
@@ -84,11 +84,11 @@ public class Offer implements Serializable {
 		this.subject = subject;
 		this.date = date;
 		this.availability = availability;
-		this.phoneNumber =phoneNumber;
-		this.message = message;
+		//this.phoneNumber =phoneNumber;
+		//this.message = message;
 		this.kindergarten = kindergarten;
 	}
-	public String getPhoneNumber() {
+	/*public String getPhoneNumber() {
 		return phoneNumber;
 	}
 	public void setPhoneNumber(String phoneNumber) {
@@ -99,15 +99,16 @@ public class Offer implements Serializable {
 	}
 	public void setMessage(String message) {
 		this.message = message;
+	}*/
+
+	public Offer() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String toString() {
 		return "Offer [id=" + id + ", subject=" + subject + ", date=" + date + ", availability=" + availability
-				+ ", phoneNumber=" + phoneNumber + ", message=" + message + ", kindergarten=" + kindergarten + "]";
-	}
-	public Offer() {
-		super();
-		// TODO Auto-generated constructor stub
+				+ ", kindergarten=" + kindergarten + "]";
 	}
 	
 	

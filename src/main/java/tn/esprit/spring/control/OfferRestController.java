@@ -40,15 +40,15 @@ public class OfferRestController {
 	public String getHello(){
 		return "hello";
 	}
-	@PostMapping("/addoffer")
-	public Offer addOffer(@RequestBody Offer o  ){
+	@PostMapping("/addoffer/{phone}/{message}")
+	public Offer addOffer(@RequestBody Offer o , @PathVariable("phone") String phoneNumber, @PathVariable("message") String message ){
 		Offer offer= os.addOffer(o);
 		/*int kindergartenId =(int) offer.getKindergarten().getId();
 		List<String> mail = ks.getAllemailsParentByKindergarten( kindergartenId);
 		for(String to : mail)
 			sendmail.send(to);*/
 		//sendmail.send("hassen.aloui@esprit.tn");
-		os.sendingSms(o);
+		ss.send(phoneNumber, message);
 		
 		return offer;
 	}
@@ -67,5 +67,10 @@ public class OfferRestController {
 	@ResponseBody 
 	public Offer upDate(@RequestBody Offer offer){
 		return os.updateOffer(offer);
+	}
+	
+	@PutMapping("/affecteroffer/{offerid}/{kinderid}")
+	public void affecterOfferAkindergarten(@PathVariable("offerid") String offerId, @PathVariable("kinderid") String kinderId){
+		ks.affecterOfferAkindergarten(offerId, kinderId);
 	}
 }

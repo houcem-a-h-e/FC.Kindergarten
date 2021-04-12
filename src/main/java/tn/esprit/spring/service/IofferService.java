@@ -2,6 +2,7 @@ package tn.esprit.spring.service;
 
 import java.util.List;
 
+
 import tn.esprit.spring.entity.Offer;
 
 public interface IofferService  {
@@ -11,4 +12,6 @@ public interface IofferService  {
 	Offer updateOffer(Offer o);
 	Offer retrieveOffer(String id);
 	 void sendingSms(Offer offerrequest);
+	 List<Integer> getNumberOfferByKinder(long kinderid);
+	 List<String> getMostKinderOffer();
 }

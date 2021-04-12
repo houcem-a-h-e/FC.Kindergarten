@@ -27,14 +27,29 @@ public class SmsSenderImpl implements SmsSender {
 		creator.create();
 	}
 
-	@Override
+	/*@Override
 	@Transactional
 	public void sendingSms(Offer offerrequest) {
-		// TODO Auto-generated method stub
+		
 		MessageCreator creator = Message.creator(new PhoneNumber(offerrequest.getPhoneNumber()) ,
 												  new PhoneNumber(twilioconfig.getTrialNumber()), 
 												  offerrequest.getMessage());
 		creator.create();
+	}*/
+	@Override
+	@Transactional
+	public void send(String phoneNumber, String message) {
+		
+		MessageCreator creator = Message.creator(new PhoneNumber(phoneNumber) ,
+												  new PhoneNumber(twilioconfig.getTrialNumber()), 
+												  message);
+		creator.create();
+	}
+
+	@Override
+	public void sendingSms(Offer offerrequest) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
