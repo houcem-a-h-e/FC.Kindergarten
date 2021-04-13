@@ -67,6 +67,14 @@ public class AdminstratorController {
 	 return kindergartenService.findParentfromKindergarten(id);
 	}
 	
+	@GetMapping("/adminstrator/rangkinder")
+	public  HashMap<String, Long> GetRangKindergartens (){
+		List<Kindergarten> k=kindergartenService.findallkindergartens();
+	    HashMap<String, Long> rangKnder = new HashMap<String, Long>();
+	
+
+		return  rangKnder;
+	}
 	
 	
 	

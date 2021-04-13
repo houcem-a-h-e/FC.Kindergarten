@@ -24,13 +24,15 @@ import tn.esprit.spring.entity.TimesheetDelegate;
 import tn.esprit.spring.entity.Users;
 import tn.esprit.spring.repository.UserRepository;
 import tn.esprit.spring.service.IDelegateService;
+import tn.esprit.spring.service.IParentService;
 import tn.esprit.spring.service.KindergartenService;
 
 @RestController
 @RequestMapping("/api")
 
 public class KindergartenController {
-	
+	@Autowired
+	IParentService iParentService;
 	@Autowired
 	KindergartenService kindergartenService;
 	@Autowired
@@ -49,7 +51,6 @@ public class KindergartenController {
 	@PostMapping("/kindergarten/add")
 	public String add(@RequestBody Kindergarten k){
 		List<Kindergarten> kinder=kindergartenService.retrieveAllKindergarten();
-		//String email = k.getEmail();
 
 		List<Kindergarten> l= kinder.stream().filter(x->x.getEmail().equals( k.getEmail())).collect(Collectors.toList());
 		if(l.isEmpty()){
@@ -81,21 +82,9 @@ public class KindergartenController {
 	 return kindergartenService.findParentfromKindergarten(id);
 	}
 	@PutMapping("/kindergarten/affectationdemandeParentforDelegate/{idk}/{idp}")
-	public List<TimesheetDelegate> affactation (@PathVariable("idk") Long idk,@PathVariable("idp") Long idp){
+	public List<TimesheetDelegate> affactationdelegate (@PathVariable("idk") Long idk,@PathVariable("idp") Long idp){
 		
-		List<TimesheetDelegate> delegates=iDelegateService.retrieveAll();
-		for(TimesheetDelegate d:delegates){
-			if(d.getPk().getParentID()==idp&&d.getPk().getKinderID()==idk){
-				d.setValide(true);
-				iDelegateService.updateDelegate(d);
-				Kindergarten k=	kindergartenService.retrieveKindergarten(idk);
-				HashMap<String, Integer> v=new HashMap<>();
-				v.put(k.getEmail(),0);
-				k.setVote(v);
-				kindergartenService.updateKindergarten(k);
-		}
-		}
-		return  delegates;
+		return  null;
 	}
 
 

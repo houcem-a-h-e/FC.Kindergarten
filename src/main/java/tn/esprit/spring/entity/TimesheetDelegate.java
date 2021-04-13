@@ -8,9 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-
-import net.minidev.json.annotate.JsonIgnore;
-
 @Entity
 public class TimesheetDelegate implements Serializable{
 	@EmbeddedId

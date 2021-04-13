@@ -1,8 +1,14 @@
 package tn.esprit.spring.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,7 +89,6 @@ public class ParentController {
 					parent.setPassword(bcryptEncoder.encode(parent.getPassword()));
 					parent.setPatype(parentType.ordinaryParent);
 					iParentService.addParent(parent);
-					
 					sendMail.send(email);
 					return "succs";
 				}
@@ -134,16 +139,11 @@ public class ParentController {
 		iDelegateService.addDelegate(iParentService.demandedelegate(idk, idp));
 		return "succs";
 	}
-	@PutMapping("/parent/vote/{idk}/{email}")
-	public String votedelegate(@PathVariable("idk")Long idk,/*@PathVariable("idp")Long idp,*/@PathVariable("email")String email){
-		Kindergarten k=	kindergartenService.retrieveKindergarten(idk);
-		HashMap<String, Integer> vote=k.getVote();
+	@Transactional
+	@PutMapping("/parent/vote/{idk}/{email}/{idp}")
+	public HashMap<String, Integer> votedelegate(@PathVariable("idk")Long idk,@PathVariable("idp")Long idp,@PathVariable("email")String email) throws ParseException{
+		
 
-		vote.put(email, vote.get(email)+1);
-
-			k.setVote(vote);
-		kindergartenService.updateKindergarten(k);
-	
-		return "vote succs";
+		return null;
 	}
 }

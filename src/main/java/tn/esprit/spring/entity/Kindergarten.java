@@ -1,12 +1,15 @@
 package tn.esprit.spring.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -54,8 +58,15 @@ public class Kindergarten implements Serializable {
 	@ManyToMany(mappedBy="kindergarten",cascade = CascadeType.ALL)
 	@JsonIgnore
 	private  List<Parent> parents ;
+	@OneToMany(cascade= CascadeType.ALL,mappedBy="Kindergarten")
+	@JsonIgnore
+	private Set<Reclamation> reclamation;
 	
 
+	@JsonIgnore
+	@Transient 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="kinderGarten",fetch=FetchType.LAZY)
+	private Collection<Event> events = new ArrayList<>();
 
 	public HashMap<String, Integer> getVote() {
 		return forvote;
@@ -171,9 +182,30 @@ public class Kindergarten implements Serializable {
 
 
 
+	
+
+	public HashMap<String, Integer> getForvote() {
+		return forvote;
+	}
+
+	public void setForvote(HashMap<String, Integer> forvote) {
+		this.forvote = forvote;
+	}
+
+	public Set<Reclamation> getReclamation() {
+		return reclamation;
+	}
+
+	public void setReclamation(Set<Reclamation> reclamation) {
+		this.reclamation = reclamation;
+	}
+
+	
+
 	public Kindergarten(long id, String name, String phonenumber, String email, String password, boolean confirmation,
-			Date datenaiss, HashMap<String, Integer> vote, String delegate, List<TimesheetDelegate> delegates,
-			Administrator administrator, Set<Bus_reservation> bus_reservations, List<Parent> parents) {
+			Date datenaiss, HashMap<String, Integer> forvote, String delegate, List<TimesheetDelegate> delegates,
+			Administrator administrator, Set<Bus_reservation> bus_reservations, List<Parent> parents,
+			Set<Reclamation> reclamation, Collection<Event> events) {
 		super();
 		this.id = id;
 		Name = name;
@@ -182,12 +214,23 @@ public class Kindergarten implements Serializable {
 		this.password = password;
 		Confirmation = confirmation;
 		this.datenaiss = datenaiss;
-		this.forvote = vote;
+		this.forvote = forvote;
 		this.delegate = delegate;
 		this.delegates = delegates;
 		this.administrator = administrator;
 		this.bus_reservations = bus_reservations;
 		this.parents = parents;
+		this.reclamation = reclamation;
+		this.events = events;
+	}
+
+	
+	public Collection<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(Collection<Event> events) {
+		this.events = events;
 	}
 
 	public Kindergarten() {

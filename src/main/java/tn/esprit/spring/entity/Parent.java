@@ -1,7 +1,10 @@
 package tn.esprit.spring.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,15 +12,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,7 +41,60 @@ public class Parent implements Serializable {
 	private  String lastName ;
 	private String phonenumber ;
 	private String email ;
-	@JsonIgnore
+	private boolean vote=false;
+
+	public boolean isVote() {
+		return vote;
+	}
+
+	public void setVote(boolean vote) {
+		this.vote = vote;
+	}
+
+	public List<TimesheetDelegate> getDelegates() {
+		return delegates;
+	}
+
+	public void setDelegates(List<TimesheetDelegate> delegates) {
+		this.delegates = delegates;
+	}
+
+	public Set<Post> getPost() {
+		return post;
+	}
+
+	public void setPost(Set<Post> post) {
+		this.post = post;
+	}
+
+	public Set<Comment> getComment() {
+		return comment;
+	}
+
+	public void setComment(Set<Comment> comment) {
+		this.comment = comment;
+	}
+
+	public Set<PostRating> getPostRating() {
+		return postRating;
+	}
+
+	public void setPostRating(Set<PostRating> postRating) {
+		this.postRating = postRating;
+	}
+
+	public Set<LikePost> getLikePost() {
+		return likePost;
+	}
+
+	public void setLikePost(Set<LikePost> likePost) {
+		this.likePost = likePost;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	private String password ;
 	@Enumerated(EnumType.STRING)
 	private parentType patype;
@@ -55,7 +111,29 @@ public class Parent implements Serializable {
 	@OneToMany(mappedBy="parent")
 	@JsonIgnore
 	List<TimesheetDelegate> delegates;
-	
+	 @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "parent", orphanRemoval=true)
+         private Set<Post> post= new HashSet<>();
+		 @OneToMany(cascade = CascadeType.ALL,mappedBy = "post", orphanRemoval=true)
+		 private Set<Comment> comment= new HashSet<>();
+		 @OneToMany(cascade = CascadeType.ALL,mappedBy = "parent", orphanRemoval=true)
+			private Set<PostRating> postRating= new HashSet<>();
+		 
+		 @OneToMany(cascade = CascadeType.ALL,mappedBy = "parent", orphanRemoval=true)
+			private Set<LikePost> likePost= new HashSet<>();
+		 
+		 @OneToMany(cascade= CascadeType.ALL,mappedBy="parents")
+		 @JsonBackReference
+			private Set<Reclamation> reclamation;
+			
+			@OneToMany(mappedBy="parent")
+			@JsonBackReference
+			private Set<Satisfaction> satisfaction;
+			
+			@JsonIgnore
+			@Transient
+			@OneToMany(cascade = CascadeType.ALL, mappedBy = "parents", fetch = FetchType.LAZY)
+			private Collection<Notification> notifications = new ArrayList<>();
+
 	
 	public String getRole() {
 		return role;
@@ -135,22 +213,51 @@ public class Parent implements Serializable {
 	
 
 
+	public Set<Reclamation> getReclamation() {
+		return reclamation;
+	}
 
+	public void setReclamation(Set<Reclamation> reclamation) {
+		this.reclamation = reclamation;
+	}
 
+	public Set<Satisfaction> getSatisfaction() {
+		return satisfaction;
+	}
 
-	public Parent(long id, String firstName, String lastName, String phonenumber, String email, String password,
-			parentType patype, Date datenais, List<Kindergarten> kindergarten, Set<Child> child) {
+	public void setSatisfaction(Set<Satisfaction> satisfaction) {
+		this.satisfaction = satisfaction;
+	}
+
+	
+
+	
+
+	public Parent(long id, String firstName, String lastName, String phonenumber, String email, boolean vote,
+			String password, parentType patype, Date datenais, List<Kindergarten> kindergarten, Set<Child> child,
+			List<TimesheetDelegate> delegates, Set<Post> post, Set<Comment> comment, Set<PostRating> postRating,
+			Set<LikePost> likePost, Set<Reclamation> reclamation, Set<Satisfaction> satisfaction,
+			Collection<Notification> notifications) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phonenumber = phonenumber;
 		this.email = email;
+		this.vote = vote;
 		this.password = password;
 		this.patype = patype;
 		this.datenais = datenais;
 		this.kindergarten = kindergarten;
 		this.child = child;
+		this.delegates = delegates;
+		this.post = post;
+		this.comment = comment;
+		this.postRating = postRating;
+		this.likePost = likePost;
+		this.reclamation = reclamation;
+		this.satisfaction = satisfaction;
+		this.notifications = notifications;
 	}
 
 	public Parent() {
@@ -164,6 +271,14 @@ public class Parent implements Serializable {
 
 	public void setChild(Set<Child> child) {
 		this.child = child;
+	}
+
+	public Collection<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(Collection<Notification> notifications) {
+		this.notifications = notifications;
 	}
 
 	

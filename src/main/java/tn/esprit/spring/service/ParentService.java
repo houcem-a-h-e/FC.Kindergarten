@@ -85,8 +85,6 @@ public class ParentService implements IParentService {
 
 	@Override
 	public TimesheetDelegate demandedelegate(Long idk,Long idp) {
-		
-		
 		return null;
 		
 		
