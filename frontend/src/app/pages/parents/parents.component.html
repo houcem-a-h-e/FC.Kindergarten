@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+  <ul class = "navbar-nav">
+    <li class = "nav-item">
+      <a routerLink="../reclamation-parent" routerLinkActive="active" class="nav-link" >Reclamation Admin</a>
+    </li>
+    <li class = "nav-item">
+      <a routerLink='../satisfaction-parent' routerLinkActive="active" class="nav-link" >Satisfaction Admin</a>
+    </li>
+  </ul>
+</nav>
+<div class="col-lg-auto">
+  <nb-card>
+    <nb-card-header>Parents List</nb-card-header>
+    <nb-card-body>
+      <div class="body table-responsive">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let p of listParent">
+            <th scope="row">{{p.id}}</th>
+            <td>{{p.name}}</td>
+            <td>
+              <button type="button" class="btn btn-danger">delete</button>
+              <button type="button" class="btn btn-success">update</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>

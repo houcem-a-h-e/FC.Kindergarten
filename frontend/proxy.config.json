@@ -1,0 +1,6 @@
+{
+  "/reclamation/*": {
+    "target": "http://localhost:8082/SpringMVC/servlet",
+    "secure": false
+  }
+}

@@ -1,0 +1,28 @@
+<div class="col-lg-auto">
+  <nb-card>
+    <nb-card-header>Kindergarten List</nb-card-header>
+    <nb-card-body>
+      <div class="body table-responsive">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>names</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let k of listKindergarten">
+            <th scope="row">{{k.id}}</th>
+            <td>{{k.names}}</td>
+            <td>
+              <button type="button" class="btn btn-danger">delete</button>
+              <button type="button" class="btn btn-success">update</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</div>
+

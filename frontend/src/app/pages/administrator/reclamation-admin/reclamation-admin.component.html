@@ -1,0 +1,33 @@
+<div class="col-lg-auto">
+    <h1>Reclamation List</h1>
+      <div class="body table-responsive">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>subject</th>
+            <th>toComplain</th>
+            <th>ranking</th>
+            <th>date</th>
+            <th>description</th>
+            <th>answer</th>
+            <th>nbRec</th>
+          </tr>
+          </thead>
+          <div *ngFor="let re of listReclamations">
+            <th scope="row">{{re.id}}</th>
+            <td>{{re.subject}}</td>
+            <td>{{re.toComplain}}</td>
+            <td>{{re.ranking}}</td>
+            <td>{{re.date}}</td>
+            <td>{{re.description}}</td>
+            <td>{{re.answer}}</td>
+            <td>{{re.nbRec}}</td>
+            <td>
+              <button type="button" class="btn btn-danger">delete</button>
+              <button type="button" class="btn btn-success">update</button>
+            </td>
+          </div>
+        </table>
+      </div>
+</div>

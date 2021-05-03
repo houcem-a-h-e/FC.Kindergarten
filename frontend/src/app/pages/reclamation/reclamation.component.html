@@ -1,0 +1,40 @@
+ <div class="col-lg-auto">
+    <nb-card>
+      <nb-card-header>Reclamation List</nb-card-header>
+      <nb-card-body>
+        <div class="body table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Subject</th>
+              <th>Date</th>
+              <th>ToComplain</th>
+              <th>Ranking</th>
+              <th>description</th>
+              <th>Answer</th>
+              <th>NbRec</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let r of listReclamation">
+              <th scope="row">{{r.id}}</th>
+              <td>{{r.subject}}</td>
+              <td>{{r.date}}</td>
+              <td>{{r.toComplain}}</td>
+              <td>{{r.ranking}}</td>
+              <td>{{r.description}}</td>
+              <td>{{r.answer}}</td>
+              <td>{{r.nbRec}}</td>
+              <td>
+                <button  type="button" class="btn btn-primary">delete</button>
+                <button type="button" class="btn btn-success">update</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
