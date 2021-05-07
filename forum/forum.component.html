@@ -1,0 +1,54 @@
+<div>
+
+
+  <form>
+    <div class="form-group">
+      <label>Post object:</label>
+      <input type="text" name="postobject" class="form-control" [(ngModel)]="post.object_post" />
+    </div>
+    <div class="form-group">
+      <label>Post text:</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" type="text" name="posttext" [(ngModel)]="post.textPost"></textarea>
+    </div>
+    <button class="btn btn-success" (click)="ajoutPost()">add post</button>
+    <div *ngIf="shownOnAddPost" class="row container-fluid" id="divshow">
+      <p class="text-danger">post added successfully !</p>
+
+    </div>
+  </form>
+
+  <form>
+    <div class="form-group">
+      <label>post id:</label>
+      <input type="text" name="postid" class="form-control" [(ngModel)]="idpostsearched" />
+    </div>
+    <button class="btn btn-success" (click)="getSepecificPost(idpostsearched)">find post</button>
+    <div *ngIf="isShown" class="row container-fluid" id="divshow">
+      <p>Div Content</p>
+
+    </div>
+  </form>
+</div>
+
+
+<div class="card-group">
+  <div class="card">
+    
+    <div class="card-body" *ngFor="let p of list ; let j = index" [post.idPost]="idPostToRemove" >
+      <p id="objectPost_{{j}}" class="card-title">{{p.object_post}}</p>
+      <p id="textPost_{{j}}" class="card-text">{{p.textPost}}</p>
+      <label>number of likes</label>
+      <div id="likesbyPost_{{j}}">{{p.numberOfLikesByPost}}</div>
+      <p id="datePost_{{j}}" class="card-text"><small class="text-muted">{{p.date_post | date: 'MMM d, y, h:mm:ss a'}}</small></p>
+      <button id="p.idPost" (click)="removePostByClick(j)" > modify</button>
+      <button> delete </button>
+      <div class="card-body" *ngFor="let i of p.comment">
+        <p class="card-text">{{i.textComment}}</p>
+        <p class="card-text"><small class="text-muted">{{i.date_comment | date: 'MMM d, y, h:mm:ss a'}}</small></p>
+        <button> modify</button>
+        <button> delete </button>
+      </div>
+
+
+    </div>
+  </div>
