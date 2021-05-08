@@ -1,0 +1,109 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h3>create account</h3>
+      <form  [formGroup]="inscriptionFormkinder">
+        <div class="form-row">
+          <div class="col-md-6">
+            <label > Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="Name"
+              placeholder="Name"
+              [ngClass]="{ 'is-invalid': submitted && f.Name.errors }"
+            />
+            <div
+              *ngIf="submitted && f.Name.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Name.errors.required">
+                name is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-4">
+            <label >Phone number</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="phonenumber"
+              placeholder="Phone number"
+              [ngClass]="{ 'is-invalid': submitted && f.phonenumber.errors }"
+            />
+            <div
+              *ngIf="submitted && f.phonenumber.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.phonenumber.errors.required">
+                Phone number is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label >E-mail</label>
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              placeholder="E-mail address"
+              [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="form-row">
+          <div class="col-md-4">
+            <label >Password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              placeholder="Enter your password"
+              [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+            />
+            <div
+              *ngIf="submitted && f.password.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.password.errors.required">
+                Password is required
+              </div>
+              <div *ngIf="f.password.errors.minlength">
+                Password must be at least 10 characters
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label >Confirm password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="confirmPassword"
+              placeholder="Enter your confirm password"
+              [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+            <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+              <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+              <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6">
+            <button class="btn btn-solid" (click)="signupkinder()">
+              create Account kindergarten
+            </button>
+          </div>
+        </div>
+      </form>
+      <h2>{{msg}}</h2>
+    </div>
+  </div>
+</div>

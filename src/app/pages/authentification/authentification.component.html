@@ -1,0 +1,63 @@
+ <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Login</h3>
+          <form [formGroup]="signinForm">
+            <div class="form-group">
+              <label >Address E-mail</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="email"
+                placeholder="Email address"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              </div>
+            </div>
+            <div class="form-group">
+              <label >Password</label>
+              <input
+                type="password"
+                formControlName="password"
+                class="form-control"
+                placeholder="Enter your password"
+                [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+              />
+             
+               
+                
+              </div>
+            </div>
+            <div class="form-group">
+              <div calss="row">
+                <div class="offset-xl-9">
+                  <a [routerLink]="['/pages/forget/password']">
+                    Forget password
+                  </a>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-dark" (click)="signin()">Login</button>
+          </form>
+      </div>
+      <div class="col-lg-6">
+        <h3>New User</h3>
+        <div class="authentication-right">
+          <h6 class="title-font">Create A Account</h6>
+          <p>
+            Sign up for a free account at our store. Registration is quick and
+            easy. It allows you to be able to order from our shop. To start
+            shopping click register.
+          </p>
+          <button class="btn btn-dark" [routerLink]="['/pages/register']">
+            Create an Account Parent
+          </button>
+          <br>
+          <br>
+          <button class="btn btn-dark" [routerLink]="['/pages/registerkinder']">
+          Create an Account kindergarten
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
