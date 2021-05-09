@@ -1,0 +1,26 @@
+.fa {
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+  padding-left: 1%;
+  color: darkblue;
+}
+.btn-space {
+  margin-right: 2%;
+}
+.likeswriting, .buttonmodif {
+  padding-right: 2%;
+}
+
+.pl-1 {
+  margin-left: (.25) !important;
+}
+
+.backdrop {
+  background-color: rgba(0,0,0,0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}

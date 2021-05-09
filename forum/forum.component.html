@@ -1,6 +1,4 @@
-<div>
-
-
+<div class="container">
   <form>
     <div class="form-group">
       <label>Post object:</label>
@@ -33,15 +31,34 @@
 
 <div class="card-group">
   <div class="card">
-    
-    <div class="card-body" *ngFor="let p of list ; let j = index" [post.idPost]="idPostToRemove" >
-      <p id="objectPost_{{j}}" class="card-title">{{p.object_post}}</p>
-      <p id="textPost_{{j}}" class="card-text">{{p.textPost}}</p>
-      <label>number of likes</label>
-      <div id="likesbyPost_{{j}}">{{p.numberOfLikesByPost}}</div>
+
+    <div class="card-body" *ngFor="let p of list ; let j = index " [post.idPost]="idPostToRemove" >
+      <label class="likeswriting">post object</label> <p id="objectPost_{{j}}" class="card-title">{{p.object_post}}</p>
+      <label class="likeswriting">post text</label> <p id="textPost_{{j}}" class="card-text">{{p.textPost}}</p>
+      <div id="likesbyPost_{{j}}"><label class="likeswriting">number of likes</label> {{p.numberOfLikesByPost}} <i class="fa fa-thumbs-up"></i></div>
       <p id="datePost_{{j}}" class="card-text"><small class="text-muted">{{p.date_post | date: 'MMM d, y, h:mm:ss a'}}</small></p>
-      <button id="p.idPost" (click)="removePostByClick(j)" > modify</button>
-      <button> delete </button>
+      <button type="button" class="btn btn-outline-primary btn-sm btn-space" (click)="openModal($event)"> modify</button>
+
+      <div class="backdrop" [ngStyle]="{'display':display}"></div>
+      <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="objpost"></h4>
+              
+            </div>
+            <div class="modal-body">
+              <p>{{p.textPost}}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal !-->
+      <button type="button" id="p.idPost" class="btn btn-outline-danger btn-sm btn-space" (click)="removePostByClick(p.idPost)"> delete </button>
+
       <div class="card-body" *ngFor="let i of p.comment">
         <p class="card-text">{{i.textComment}}</p>
         <p class="card-text"><small class="text-muted">{{i.date_comment | date: 'MMM d, y, h:mm:ss a'}}</small></p>
@@ -52,3 +69,9 @@
 
     </div>
   </div>
+
+  <!-- open a modal window by clicking button  basic bootstrap-->
+
+  <button type="button" class="btn btn-warning btn-sm" >click to open</button>
+
+  
