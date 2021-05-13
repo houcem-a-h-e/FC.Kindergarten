@@ -20,8 +20,6 @@ export class ForumComponent implements OnInit {
   idpostsearched: number;
   idPostToRemove: number;
   idPostToUpdate: number;
-
-  r: Router;
   isShown: boolean = false;
   shownOnAddPost: boolean = false;
   hideMessageAfterTheAddPost: boolean = true;
@@ -46,7 +44,8 @@ export class ForumComponent implements OnInit {
       private postSer: PostService,
       private commentSer: CommentServiceService,
     private modalService: NgbModal,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private r: Router) { }
   ngOnInit(): void {
     // this.postSer.getPost().subscribe(() => (this.listofLikes.push(this.post.idPost)));
     this.post = new Post();
