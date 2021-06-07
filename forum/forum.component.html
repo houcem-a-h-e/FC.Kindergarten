@@ -1,6 +1,6 @@
-<div class="container">
-  <form>
-    <div class="form-group">
+<div class="container div1" >
+  <!-- <form>
+    <div class="form-group postobject">
       <label>Post object:</label>
       <input type="text" name="postobject" class="form-control" [(ngModel)]="post.object_post" />
     </div>
@@ -13,9 +13,34 @@
       <p class="text-danger">post added successfully !</p>
 
     </div>
+  </form> -->
+
+
+  <form #addPostForm="ngForm" class="addpostform">
+    <div class="form-group postobject">
+      <label class="labeladdpost">Post object:</label>
+      <input type="text" name="postobjecttoadd" class="form-control" ngModel [(ngModel)]="post.object_post" />
+    </div>
+    <div class="form-group">
+      <label class="labeladdpost" >Post text:</label>
+      <textarea class="form-control"
+                id="exampleFormControlTextarea1"
+                rows="3" type="text" name="posttexttoadd"
+                ngModel
+                [(ngModel)]="post.textPost"></textarea>
+    </div>
+    <button class="btn btn-success" (click)="ajoutPost()">add post</button>
+    <div *ngIf="shownOnAddPost" class="row container-fluid" id="divshow">
+      <p class="text-danger">post added successfully !</p>
+
+    </div>
   </form>
 
-  <form>
+
+
+
+
+ <!-- <form>
     <div class="form-group">
       <label>post id:</label>
       <input type="text" name="postid" class="form-control" [(ngModel)]="idpostsearched" />
@@ -25,56 +50,91 @@
       <p>Div Content</p>
 
     </div>
-  </form>
-</div>
+  </form> -->
+
+<h3> Parents Forum</h3>
+  <div class="card-group">
+    <div class="card">
+
+      <div class="card-body" *ngFor="let p of list ; let j = index " [post.idPost]="idPostToRemove">
+        <div class="input-group postobject">
+          <input type="text" name="postobject" class="form-control " [(ngModel)]="p.object_post" />
+        </div>
+        <div class="input-group posttext">
+          <!--<span class="input-group-addon"><i class="glyphicon glyphicon-trash"></i></span>-->
+          <textarea rows="3" type="text" name="posttext" class="form-control textpost" [(ngModel)]="p.textPost"></textarea>
+          <!--  <nb-icon id="star" icon="edit"></nb-icon> -->
+
+          <i class="fa fa-edit p.idPost" (click)="showUpdateWindow(p.idPost)"></i>
+          <form [hidden]="hideUpdateWindow">
+            <div *ngIf="test(p.idPost)" [p.idPost]="idPostToRemove">
+              <div class="editshow">
+                <input class="editshow" ngModel [(ngModel)]="p.object_post" name="postobjecttomodify" >
+                <textarea class="editshow" rows="3" ngModel [(ngModel)]="post.textPost" name="posttexttomdify"></textarea>
+              </div>
+              <button class="btn btn-outline-primary btn-sm btnedit" (click)="updatePostAfterClk(p.idPost)">
+                update the post
+              </button>
+              <button class="btn btn-outline-danger btn-sm btnedit" (click)="cancelupdate()">
+                Cancel the update
+              </button>
 
 
-<div class="card-group">
-  <div class="card">
-
-    <div class="card-body" *ngFor="let p of list ; let j = index " [post.idPost]="idPostToRemove">
-      <label class="likeswriting">post object</label> <p id="objectPost_{{j}}" class="card-title">{{p.object_post}}</p>
-      <input type="text" name="postobject" class="form-control" [(ngModel)]="p.object_post" />
-      <label class="likeswriting">post text</label> <p id="textPost_{{j}}" class="card-text">{{p.textPost}}</p>
-      <input type="text" name="postobject" class="form-control" [(ngModel)]="p.textPost" />
-      <div id="likesbyPost_{{j}}"><label class="likeswriting">number of likes</label> {{p.numberOfLikesByPost}} <i class="fa fa-thumbs-up"></i></div>
-      <p id="datePost_{{j}}" class="card-text"><small class="text-muted">{{p.date_post | date: 'MMM d, y, h:mm:ss a'}}</small></p>
-      <button type="button" class="btn btn-outline-primary btn-sm btn-space" (click)="openModal($event)"> modify</button>
-
-      <div class="backdrop" [ngStyle]="{'display':display}"></div>
-      <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="objpost"></h4>
 
             </div>
-            <div class="modal-body">
-              <p>{{p.textPost}}</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal !-->
-      <button type="button" id="p.idPost" class="btn btn-outline-danger btn-sm btn-space" (click)="removePostByClick(p.idPost)"> delete </button>
+          </form>
+          <i id="p.idPost" class="fa fa-trash" (click)="removePostByClick(p.idPost)"></i>
+          <!-- <div *ngIf="showWarningDeletePost">
+            {{removePostByClick(p.idPost)}}
+          </div>-->
+        </div>
+        
+        <div class="input-group posttext">
 
-      <div class="card-body" *ngFor="let i of p.comment">
-        <p class="card-text">{{i.textComment}}</p>
-        <p class="card-text"><small class="text-muted">{{i.date_comment | date: 'MMM d, y, h:mm:ss a'}}</small></p>
-        <button type="button" class="btn btn-outline-success btn-sm btn-space"> add</button>
-        <button type="button" class="btn btn-outline-primary btn-sm btn-space"> modify</button>
-        <button type="button" class="btn btn-outline-danger btn-sm btn-space"> delete </button>
+          <textarea class="form-control"
+                    id="exampletextCommentControlTextarea"
+                    rows="3" type="text" name="commenttexttoadd"
+                    ngModel [(ngModel)]="c.textComment"></textarea>
+          <i class="fa fa-plus" (click)="ajoutComment(p.idPost)"></i>
+      
+        </div>
+       
+          <div id="likesbyPost_{{j}}"><label class="likeswriting">number of likes</label> {{p.jaimenb}} <i class="fa fa-thumbs-up" (click)="addliketopost(p.idPost)"></i></div>
+          <p id="datePost_{{j}}" class="card-text"><small class="timing">{{p.date_post | date: 'MMM d, y, h:mm:ss a'}}</small></p>
+
+          <div id="commentblock" class="card-body " *ngFor="let y of p.comment">
+            <div>
+              <div class="rakka7comment" [c.id_comment]="idCommentToWorkOn">
+                <p class="card-text commenttext">{{y.textComment}}</p>
+                <div class="card-icons">
+                  <i id="edit-comment" class="fa fa-edit c.id_comment" (click)="showCommentUpdateWindow(y.id_comment)"></i>
+                  <i id="remove-comment" class="fa fa-trash" (click)="removeCmtByClick(y.id_comment)"></i>
+                </div>
+              </div>
+              <p class="card-text commenttext"><small class="timing">{{y.date_comment | date: 'MMM d, y'}}</small></p>
+              <form [hidden]="hideCommentUpdateWindow">
+                <div class="updatecmntwindw" *ngIf="trial(y.id_comment)" [y.id_comment]="idCommentToWorkOn">
+                  <input class="updatecmmntelement" ngModel [(ngModel)]="y.textComment" name="comment_text">
+                  <button class="btn btn-outline-primary updatecmmntelement" (click)="updateCmtAfterClk(y, p)">
+                    update the comment
+                  </button>
+                </div>
+              </form>
+
+            </div>
+             
+          </div>
+
+
+
+          <!-- open a modal window by clicking button  basic bootstrap-->
+        </div>
       </div>
-
-
     </div>
-  </div>
 
-  <!-- open a modal window by clicking button  basic bootstrap-->
 
-  
 
-  
+
+
+   
+</div>
